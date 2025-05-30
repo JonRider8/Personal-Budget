@@ -8,7 +8,8 @@ const {
     getAllEnvelopes,
     getEnvelopeById,
     updateEnvelope,
-    deleteEnvelope
+    deleteEnvelope,
+    getEnvelopeTransactions
 } = require('./db.js');
 
 envelopeRouter.param('id', (req, res, next, id) => {
@@ -45,6 +46,16 @@ envelopeRouter.put('/:id', (req, res) => {
     try {
         updateEnvelope(id, updatedBudget);
         res.send(req.envelope);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+envelopeRouter.get('/:id/transactions', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    try {
+        const transactions = getEnvelopeTransactions(id);
+        res.send(transactions);
     } catch (error) {
         res.status(400).send(error.message);
     }

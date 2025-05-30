@@ -1,3 +1,5 @@
+const e = require("express");
+
 let envelopes = [];
 let nextId = 1;
 
@@ -29,7 +31,8 @@ const createEnvelope = (envelope) => {
         _id: nextId++, // simple ID generation
         _name: envelope.name,
         _budget: envelope.budget, // ensure budget is a number
-        balance: envelope.budget // initial balance equals budget
+        balance: envelope.budget, // initial balance equals budget
+        transactions: [envelope.budget] // initialize transactions as an empty array
     };
     
     if (envelopeValidation(newEnvelope)) {
@@ -57,16 +60,18 @@ const updateEnvelope = (id, updatedBudget) => {
         const envelopeToUpdate = getEnvelopeById(id);
         if (envelopeToUpdate) {
             // + or - followed by a number
-            if (typeof updatedBudget !== 'string' || !/^[+-]\d+(\.\d+)?$/.test(updatedBudget)) {
-                throw new Error('Invalid budget update format. Use + or - followed by a number.');
-            }
             const firstChar = updatedBudget.charAt(0);
             switch (firstChar) {
                 case '+':
                     envelopeToUpdate.balance += parseFloat(updatedBudget.slice(1));
+                    envelopeToUpdate.transactions.push(envelopeToUpdate.balance); // add to transactions
                     break;
                 case '-':
                     envelopeToUpdate.balance -= parseFloat(updatedBudget.slice(1));
+                    if (envelopeToUpdate.balance < 0) {
+                        throw new Error('Insufficient balance. Cannot deduct more than the current balance.');
+                    }
+                    envelopeToUpdate.transactions.push(envelopeToUpdate.balance); // add to transactions
                     break;
                 default:
                     throw new Error('Invalid budget update format. Use + or - followed by a number.');
@@ -75,6 +80,15 @@ const updateEnvelope = (id, updatedBudget) => {
             throw new Error('Envelope not found');
         }
     }
+}
+
+// get envelope by ID transactions
+const getEnvelopeTransactions = (id) => {
+    const envelope = getEnvelopeById(id);
+    if (envelope) {
+        return envelope.transactions;
+    }
+    throw new Error('Envelope not found');
 }
 
 // delete envelopes
@@ -92,5 +106,6 @@ module.exports = {
     getAllEnvelopes,
     getEnvelopeById,
     updateEnvelope,
-    deleteEnvelope
+    deleteEnvelope,
+    getEnvelopeTransactions
 };
