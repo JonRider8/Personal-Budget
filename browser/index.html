@@ -8,6 +8,32 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <header>
+        <h1>Personal Budget Tracker</h1>
+    </header>
+    <main>
+        <section id="all-envolopes">
+            <h2>All Envelopes</h2>
+            <button id="add-envelope">Add Envelope</button>
+            <div id="envelope-list"></div>
+        </section>
+        <section id="new-envelope" class="hidden">
+            <h2>Create New Envelope</h2>
+            <form id="envelope-form">
+                <label for="envelope-name">Envelope Name:</label>
+                </br>
+                <input type="text" id="envelope-name" required>
+                </br></br>
+                <label for="envelope-amount">Amount:</label>
+                </br>
+                <input type="number" id="envelope-amount" required>
+                </br>
+                <button type="submit">Create Envelope</button>
+            </form>
+        </section>
+        <section id="envelope-details" class="hidden">
+            <h2>Envelope Details</h2>
+            <div id="details-content"></div>
+            <button id="back-to-envelopes">Back to Envelopes</button>
 </body>
 </html>
