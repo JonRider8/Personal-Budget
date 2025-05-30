@@ -1,15 +1,20 @@
+const { get } = require("./envelope");
+
 let envelopes = [];
 
 // envelope validation
 const envelopeValidation = (envelope) => {
-    if (!envelope.name || typeof envelope.name !== 'string' || envelope.name.trim() === '') {
+    if (!envelope._name || typeof envelope._name !== 'string' || envelope._name.trim() === '') {
         return false; // name must be a non-empty string
     }
-    if (typeof envelope.budget !== 'number' || envelope.budget < 0) {
+    if (typeof envelope._budget !== 'number' || envelope._budget < -1) {
         return false; // budget must be a non-negative number
     }
-    if(id === undefined) {
+    if(envelope._id === undefined) {
         return false; // id must be defined
+    }
+    if (typeof envelope.balance !== 'number' || envelope.balance < -1) {
+        return false; // balance must be a non-negative number
     }
     return true; // valid envelope
 }
@@ -17,9 +22,9 @@ const envelopeValidation = (envelope) => {
 // creates new envelopes
 const createEnvelope = (name, budget) => {
     const newEnvelope = {
-        id: envelopes.length + 1, // simple ID generation
-        name: name,
-        budget: budget,
+        _id: envelopes.length + 1, // simple ID generation
+        _name: name,
+        _budget: budget,
         balance: budget // initial balance equals budget
     };
 
@@ -30,12 +35,46 @@ const createEnvelope = (name, budget) => {
     }
 }
 
-//read envelopes
+//get all envelopes
+const getAllEnvelopes = () => {
+    return envelopes;
+}
 
-//reads envelope information
+//get envelope by ID
+const getEnvelopeById = (id) => {
+    return envelopes.find(envelope => envelope._id === id);
+}
 
 // update envelopes
+const updateEnvelope = (id, updatedBudget) => {
+    if(id <= 1){
+        const envelopeToUpdate = getEnvelopeById(id);
+        if (envelopeToUpdate) {
+            const firstChar = updatedBudget.charAt(0);
+            switch (firstChar) {
+                case '+':
+                    envelopeToUpdate.balance += parseFloat(updatedBudget.slice(1));
+                    break;
+                case '-':
+                    envelopeToUpdate.balance -= parseFloat(updatedBudget.slice(1));
+                    break;
+                default:
+                    throw new Error('Invalid budget update format. Use + or - followed by a number.');
+            }
+        } else {
+            throw new Error('Envelope not found');
+        }
+    }
+}
 
 // delete envelopes
 
-envelopes = createEnvelope('Groceries', 500);
+createEnvelope('Temporary Envelope', 200);
+
+console.log(getAllEnvelopes());
+
+console.log(getEnvelopeById(1));
+
+updateEnvelope(1, "-50");
+
+console.log(getAllEnvelopes());
