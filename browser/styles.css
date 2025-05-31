@@ -24,3 +24,11 @@ main {
 .hidden {
     display: none;
 }
+
+#add-envelope{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    background-color: #fff; 
+}
