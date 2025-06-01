@@ -1,5 +1,3 @@
-const e = require("express");
-
 let envelopes = [];
 let nextId = 1;
 
