@@ -11,22 +11,24 @@ const fetchEnvelopeData = async () => {
 }
 
 const populateEnvelopeList = (envelopes) => {
-    const allEnvelopes = document.getElementById('all-envelopes');
     const envelopeList = document.getElementById('envelope-list');
 
     if (envelopes && envelopes.length > 0) {
         envelopes.forEach(envelope => {
-            console.log('envelope in populateEnvelopeList:', envelope);
             const envelopeItem = document.createElement('div');
             envelopeItem.className = 'envelope-item';
+            envelopeItem.id = `envelope-${envelope.id}`;
             envelopeItem.innerHTML = `
-                <h3>${envelope._name}</h3>
+                <h3>${envelope._name.toUpperCase()}</h3>
                 <p>Balance: ${envelope.balance.toFixed(2)}</p>
                 <p>Budget: ${envelope._budget.toFixed(2)}</p>
-                <button class="view-transactions" data-id="${envelope.id}">View Transactions</button>
-                <button class="edit-envelope" data-id="${envelope.id}">Edit</button>
-                <button class="delete-envelope" data-id="${envelope.id}">Delete</button>
-                `;
+                <div class="envelope-actions">
+                    <button class="view-transactions" data-id="${envelope.id}">View Transactions</button>
+                    <button class="edit-envelope" data-id="${envelope.id}">Edit</button>
+                    <button class="delete-envelope" data-id="${envelope.id}">Delete</button>
+                </div>
+            `;
+            // Add event listeners for buttons
             envelopeList.appendChild(envelopeItem);
         })
     }
@@ -35,14 +37,17 @@ const populateEnvelopeList = (envelopes) => {
 fetchEnvelopeData().then(envelopeData => { 
    const addEnvelopeButton = document.getElementById('add-envelope');
    const submitEnvelopeButton = document.getElementById('submit-envelope');
-   const backToEnvelopesButton = document.getElementById('back-to-envelopes')
+   const backToEnvelopesButton = document.getElementById('back-to-envelopes');
+   const viewTransactionsButton = document.getElementById('view-transactions');
+   const editEnvelopeButton = document.getElementById('edit-envelope');
+   const deleteEnvelopeButton = document.getElementById('delete-envelope');
 
    // Event listeners for add envelope button
    addEnvelopeButton.addEventListener('click', () => {
        const allEnvelopes = document.getElementById('all-envelopes');
        allEnvelopes.style.display = 'none';
        const newEnvelopeForm = document.getElementById('new-envelope'); 
-       newEnvelopeForm.style.display = 'block'; 
+       newEnvelopeForm.style.display = 'flex'; 
    });
 
     // Event listener for submit new envelopes button
@@ -69,6 +74,7 @@ fetchEnvelopeData().then(envelopeData => {
            alert('Please fill in all fields.');
        }
    });
+
 
    populateEnvelopeList(envelopeData);
 });

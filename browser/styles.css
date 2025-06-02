@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    background-color: red;
+    background-color: rgb(23, 134, 8);
     text-align: center;
     padding: 20px 0;
 }
@@ -21,8 +21,10 @@ main {
     padding: 20px;
 }
 
-.hidden {
-    display: none;
+#all-envelopes, #new-envelope, #envelope-details  {
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
 }
 
 #add-envelope{
@@ -30,5 +32,38 @@ main {
     flex-direction: column;
     align-items: center;
     padding: 30px;
-    background-color: #fff; 
+    justify-content: center;
+}
+
+.envelope-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    padding: 12px;
+    margin: 10px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    background-color: #f3ebde;
+}
+
+.envelope-item h3 {
+    margin: 0 12px 0 0;
+}
+
+.envelope-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.envelope-actions button {
+    padding: 6px 14px;
+    font-size: 1em;
+}
+
+.hidden {
+    display: none;
 }
