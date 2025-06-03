@@ -173,6 +173,26 @@ fetchEnvelopeData().then(envelopeData => {
         }
     });
 
+    // delete envelope
+    Array.from(deleteEnvelopeButtons).forEach(button => {
+        button.addEventListener('click', (event) => {
+            const envelopeId = event.target.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this envelope?')) {
+                fetch(`/api/envelope/${envelopeId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        throw new Error('Failed to delete envelope');
+                    }
+                })
+                .catch(error => console.error('Error deleting envelope:', error));
+            }
+        });
+    });
+
     // back to envelopes button
     backToEnvelopesButtons.forEach(button => {
         button.addEventListener('click', () => {
