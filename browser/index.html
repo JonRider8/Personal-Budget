@@ -12,11 +12,14 @@
         <h1>Personal Budget Tracker</h1>
     </header>
     <main>
+        <!-- Main Menu/All Envelopes -->
         <section id="all-envelopes">
             <h2>All Envelopes</h2>
             <button id="add-envelope">Add Envelope</button>
             <div id="envelope-list"></div>
         </section>
+
+        <!-- New Evelope Form -->
         <section id="new-envelope" class="hidden">
             <h2>Create New Envelope</h2>
             <button class="back-to-envelopes">Back to Envelopes</button>
@@ -24,8 +27,10 @@
                 </br>
                 <label for="envelope-name">Envelope Name:</label>
                 </br>
-                <input type="text" id="envelope-name" required>
+                <input type="text" id="envelope-name" maxlength="15" required>
+
                 </br></br>
+
                 <label for="envelope-amount">Amount:</label>
                 </br>
                 <input type="number" id="envelope-amount" required>
@@ -33,21 +38,37 @@
                 <button type="submit-envelope" id="submit-envelope">Create Envelope</button>
             </form>
         </section>
+
+        <!-- Envelope Details -->
         <section id="envelope-details" class="hidden">
             <h2>Envelope Details</h2>
             <div id="details-content"></div>
             <button class="back-to-envelopes">Back to Envelopes</button>
             <div id="transaction-list"></div>    
         </section>
+
+        <!-- Update Envelope Balance -->
         <section id="update-envelope" class="hidden">
             <h2>Update Envelope Balance</h2>
             <button class="back-to-envelopes">Back to Envelopes</button>
             <form id="update-envelope-form">
-                <input type="radio" id="update-type-plus" name="update-type-plus" value="update-type" checked>
-                <label for="update-type-plus"> + Add Funds</label>
-                <input type="radio" id="update-type-minus" name="update-type-minus" value="update-type">
-                <label for="update-type-minus"> - Subtract Funds</label>
-                </br></br>
+                </br>
+                <fieldset>
+                <legend>Transaction Type</legend>
+                    <div>
+                        <input type="radio" id="update-type-plus" name="update-type" value="add" checked>
+                        <label for="update-type-plus"> + Add Funds</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="update-type-minus" name="update-type" value="subtract">
+                        <label for="update-type-minus"> - Subtract Funds</label>
+                    </div>
+
+                </fieldset>
+
+                </br>
+
                 <label for="update-envelope-amount">Amount:</label>
                 </br>
                 <input type="number" id="update-envelope-amount" required>

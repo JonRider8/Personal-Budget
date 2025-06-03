@@ -42,9 +42,9 @@ envelopeRouter.get('/:id', (req, res) => {
 
 envelopeRouter.put('/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const updatedBudget = req.body.budget;
+    const updatedBalance = req.body.balance;
     try {
-        updateEnvelope(id, updatedBudget);
+        updateEnvelope(id, updatedBalance);
         res.send(req.envelope);
     } catch (error) {
         res.status(400).send(error.message);

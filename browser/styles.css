@@ -21,7 +21,7 @@ main {
     padding: 20px;
 }
 
-#all-envelopes, #new-envelope, #envelope-details  {
+#all-envelopes, #new-envelope, #envelope-details, #update-envelope {
     align-items: center;
     flex-direction: column;
     padding: 20px;

@@ -53,19 +53,19 @@ const getEnvelopeById = (id) => {
 }
 
 // update envelopes
-const updateEnvelope = (id, updatedBudget) => {
+const updateEnvelope = (id, updatedBalance) => {
     if(id > 0){ 
         const envelopeToUpdate = getEnvelopeById(id);
         if (envelopeToUpdate) {
             // + or - followed by a number
-            const firstChar = updatedBudget.charAt(0);
+            const firstChar = updatedBalance.charAt(0);
             switch (firstChar) {
                 case '+':
-                    envelopeToUpdate.balance += parseFloat(updatedBudget.slice(1));
+                    envelopeToUpdate.balance += parseFloat(updatedBalance.slice(1));
                     envelopeToUpdate.transactions.push(envelopeToUpdate.balance); // add to transactions
                     break;
                 case '-':
-                    envelopeToUpdate.balance -= parseFloat(updatedBudget.slice(1));
+                    envelopeToUpdate.balance -= parseFloat(updatedBalance.slice(1));
                     if (envelopeToUpdate.balance < 0) {
                         throw new Error('Insufficient balance. Cannot deduct more than the current balance.');
                     }
