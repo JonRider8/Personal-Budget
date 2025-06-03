@@ -23,9 +23,9 @@ const populateEnvelopeList = (envelopes) => {
                 <p>Balance: ${envelope.balance.toFixed(2)}</p>
                 <p>Budget: ${envelope._budget.toFixed(2)}</p>
                 <div class="envelope-actions">
-                    <button class="update-envelope" data-id="${envelope._id}">Update</button>
-                    <button class="view-transactions" data-id="${envelope._id}">View Transactions</button>
-                    <button class="delete-envelope" data-id="${envelope._id}">Delete</button>
+                    <button class="update-envelope-button" data-id="${envelope._id}">Update</button>
+                    <button class="view-transactions-button" data-id="${envelope._id}">View Transactions</button>
+                    <button class="delete-envelope-button" data-id="${envelope._id}">Delete</button>
                 </div>
             `;
             // Add event listeners for buttons
@@ -35,25 +35,27 @@ const populateEnvelopeList = (envelopes) => {
 }
 
 fetchEnvelopeData().then(envelopeData => { 
+    //button elements
     const addEnvelopeButton = document.getElementById('add-envelope');
     const submitEnvelopeButton = document.getElementById('submit-envelope');
-    const backToEnvelopesButton = document.getElementById('back-to-envelopes');
-    
+    const backToEnvelopesButtons = document.querySelectorAll('.back-to-envelopes');
+
+    //section elements
     const allEnvelopes = document.getElementById('all-envelopes');
     const newEnvelopeForm = document.getElementById('new-envelope'); 
     const envelopeDetails = document.getElementById('envelope-details');
+    const updateEnvelopeForm = document.getElementById('update-envelope');
     
-    // Event listeners for add envelope button
+    // Add envelope button
     addEnvelopeButton.addEventListener('click', () => {
         allEnvelopes.style.display = 'none';
         newEnvelopeForm.style.display = 'flex'; 
     });
     
-    // Event listener for submit new envelopes button
+    // Submit new envelopes button
     submitEnvelopeButton.addEventListener('click', () => {
         const envelopeName = document.getElementById('envelope-name').value;
         const envelopeBudget = document.getElementById('envelope-amount').value;
-        
         
         if (envelopeName && envelopeBudget) {
             fetch('/api/envelope', {
@@ -78,36 +80,61 @@ fetchEnvelopeData().then(envelopeData => {
 
     // These have to go after the envelopes are populated
 
-    const viewTransactionsButtons = document.getElementsByClassName('view-transactions');
-    const editEnvelopeButtons = document.getElementsByClassName('update-envelope');
-    const deleteEnvelopeButtons = document.getElementsByClassName('delete-envelope');
+    const viewTransactionsButtons = document.getElementsByClassName('view-transactions-button');
+    const updateEnvelopeButtons = document.getElementsByClassName('update-envelope-button');
+    const deleteEnvelopeButtons = document.getElementsByClassName('delete-envelope-button');
 
+    // Transaction view
     if(viewTransactionsButtons && viewTransactionsButtons.length > 0) {
         Array.from(viewTransactionsButtons).forEach(button => {
             button.addEventListener('click', (event) => {
                 const envelopeId = event.target.getAttribute('data-id');
+                const transactionItem = document.createElement('div');
+
                 fetch(`/api/envelope/${envelopeId}/transactions`)
                     .then(response => response.json())
                     .then(transactions => {
-                        console.log('Transactions:', transactions);
                         allEnvelopes.style.display = 'none';
                         envelopeDetails.style.display = 'flex'; 
 
                         const transactionList = document.getElementById('transaction-list');
+                        
+                        // Clear previous transactions
                         if(transactionList){
-                            transactionList.innerHTML = ''; // Clear previous transactions
+                            transactionList.innerHTML = ''; 
                         }
+
                         transactions.forEach(transaction => {
-                            const transactionItem = document.createElement('div');
                             transactionItem.className = 'transaction-item';
                             transactionItem.innerHTML = `
                                 <p>Transaction: ${transaction}</p>
                             `;
-                            console.log('Transaction Item:', transactionItem);
+
                             transactionList.appendChild(transactionItem);
                         });
                     }).catch(error => console.error('Error fetching transactions:', error));
             });
+
         })
     }
+    
+    // update envelope
+    if(updateEnvelopeButtons && updateEnvelopeButtons.length > 0) {
+        Array.from(updateEnvelopeButtons).forEach(button => {
+            button.addEventListener('click', (event) => {
+                
+            });
+        });
+    }
+    
+    //  back to envelopes button
+    backToEnvelopesButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            envelopeDetails.style.display = 'none';
+            newEnvelopeForm.style.display = 'none';
+            updateEnvelopeForm.style.display = 'none';
+            allEnvelopes.style.display = 'flex'; 
+            window.location.reload();
+        });
+    });
 });

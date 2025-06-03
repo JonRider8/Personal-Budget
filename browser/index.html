@@ -19,7 +19,9 @@
         </section>
         <section id="new-envelope" class="hidden">
             <h2>Create New Envelope</h2>
+            <button class="back-to-envelopes">Back to Envelopes</button>
             <form id="envelope-form">
+                </br>
                 <label for="envelope-name">Envelope Name:</label>
                 </br>
                 <input type="text" id="envelope-name" required>
@@ -34,7 +36,23 @@
         <section id="envelope-details" class="hidden">
             <h2>Envelope Details</h2>
             <div id="details-content"></div>
-            <button id="back-to-envelopes">Back to Envelopes</button>
-            <div id="transaction-list"></div>
+            <button class="back-to-envelopes">Back to Envelopes</button>
+            <div id="transaction-list"></div>    
+        </section>
+        <section id="update-envelope" class="hidden">
+            <h2>Update Envelope Balance</h2>
+            <button class="back-to-envelopes">Back to Envelopes</button>
+            <form id="update-envelope-form">
+                <input type="radio" id="update-type-plus" name="update-type-plus" value="update-type" checked>
+                <label for="update-type-plus"> + Add Funds</label>
+                <input type="radio" id="update-type-minus" name="update-type-minus" value="update-type">
+                <label for="update-type-minus"> - Subtract Funds</label>
+                </br></br>
+                <label for="update-envelope-amount">Amount:</label>
+                </br>
+                <input type="number" id="update-envelope-amount" required>
+                </br>
+                <button type="submit-update" id="submit-update">Update Envelope</button>
+            </form>
 </body>
 </html>
