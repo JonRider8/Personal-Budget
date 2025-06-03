@@ -62,14 +62,14 @@ const updateEnvelope = (id, updatedBalance) => {
             switch (firstChar) {
                 case '+':
                     envelopeToUpdate.balance += parseFloat(updatedBalance.slice(1));
-                    envelopeToUpdate.transactions.push(envelopeToUpdate.balance); // add to transactions
+                    envelopeToUpdate.transactions.push(updatedBalance); // add to transactions
                     break;
                 case '-':
                     envelopeToUpdate.balance -= parseFloat(updatedBalance.slice(1));
                     if (envelopeToUpdate.balance < 0) {
                         throw new Error('Insufficient balance. Cannot deduct more than the current balance.');
                     }
-                    envelopeToUpdate.transactions.push(envelopeToUpdate.balance); // add to transactions
+                    envelopeToUpdate.transactions.push(updatedBalance); // add to transactions
                     break;
                 default:
                     throw new Error('Invalid budget update format. Use + or - followed by a number.');

@@ -92,7 +92,6 @@ fetchEnvelopeData().then(envelopeData => {
         Array.from(viewTransactionsButtons).forEach(button => {
             button.addEventListener('click', (event) => {
                 const envelopeId = event.target.getAttribute('data-id');
-                const transactionItem = document.createElement('div');
 
                 fetch(`/api/envelope/${envelopeId}/transactions`)
                     .then(response => response.json())
@@ -107,14 +106,16 @@ fetchEnvelopeData().then(envelopeData => {
                             transactionList.innerHTML = ''; 
                         }
 
-                        transactions.forEach(transaction => {
-                            transactionItem.className = 'transaction-item';
-                            transactionItem.innerHTML = `
-                                <p>Transaction: ${transaction}</p>
-                            `;
-
-                            transactionList.appendChild(transactionItem);
-                        });
+                        transactions.forEach((transaction, index) => {
+                        const transactionItem = document.createElement('div');
+                        transactionItem.className = 'transaction-item';
+                        if(index === 0){
+                            transactionItem.innerHTML = `<p>Initial Balance: ${transaction}</p>`;
+                        } else {
+                            transactionItem.innerHTML = `<p>Transaction: ${transaction}</p>`;
+                        }
+                        transactionList.appendChild(transactionItem);
+                    });
                     }).catch(error => console.error('Error fetching transactions:', error));
             });
 
