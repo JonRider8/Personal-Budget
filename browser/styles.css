@@ -35,7 +35,7 @@ main {
     justify-content: center;
 }
 
-.envelope-item{
+.envelope-item, .transaction-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -45,6 +45,12 @@ main {
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
     background-color: #f3ebde;
+}
+
+.transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: large;
 }
 
 .envelope-item h3 {

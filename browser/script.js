@@ -106,17 +106,19 @@ fetchEnvelopeData().then(envelopeData => {
                             transactionList.innerHTML = ''; 
                         }
 
-                        transactions.forEach((transaction, index) => {
-                        const transactionItem = document.createElement('div');
-                        transactionItem.className = 'transaction-item';
-                        if(index === 0){
-                            transactionItem.innerHTML = `<p>Initial Balance: ${transaction}</p>`;
-                        } else {
-                            transactionItem.innerHTML = `<p>Transaction: ${transaction}</p>`;
-                        }
-                        transactionList.appendChild(transactionItem);
+                       for (let i = transactions.length - 1; i >= 0; i--) {
+                           const transaction = transactions[i];
+                           const transactionItem = document.createElement('div');
+                           transactionItem.className = 'transaction-item';
+                           if (i === 0) {
+                               transactionItem.innerHTML = `<p>Initial Balance: ${transaction}</p>`;
+                           } else {
+                               transactionItem.innerHTML = `<p>Transaction: ${transaction}</p>`;
+                           }
+                           transactionList.appendChild(transactionItem);
+                       }
                     });
-                    }).catch(error => console.error('Error fetching transactions:', error));
+
             });
 
         })
