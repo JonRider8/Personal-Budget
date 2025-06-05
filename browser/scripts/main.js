@@ -21,6 +21,15 @@ const fetchEnvelopeData = async () => {
 const hideShow = (section1, section2) => {
     section1.style.display = 'none';
     section2.style.display = 'flex'; 
+    
+    const h2 = section2.querySelector('h2');
+    const envelopeName = section2.getAttribute('data-name') || '';
+    
+    if(section2.id === 'envelope-details') {
+        h2.textContent = `${envelopeName} Transaction History`;
+    } else if(section2.id === 'update-envelope') {
+        h2.textContent = `Update ${envelopeName} Envelope`;
+    }
 }
 
 fetchEnvelopeData().then(envelopeData => { 
@@ -59,27 +68,33 @@ fetchEnvelopeData().then(envelopeData => {
     const updateEnvelopeButtons = document.getElementsByClassName('update-envelope-button');
     const deleteEnvelopeButtons = document.getElementsByClassName('delete-envelope-button');
 
-    // Transaction view
-    Array.from(viewTransactionsButtons).forEach(button => {
-        button.addEventListener('click', (event) => {
-            hideShow(allEnvelopes, envelopeDetails);
-
-            event.preventDefault();
-            viewTransactions(event)
-            });
-        })
-    
     // update envelope
     Array.from(updateEnvelopeButtons).forEach(button => {
         button.addEventListener('click', (event) => {
+            const envelopeName = button.getAttribute('data-name');
+            updateEnvelopeForm.setAttribute('data-name', envelopeName);
+
             currentEnvelopeId = event.target.getAttribute('data-id');
             hideShow(allEnvelopes, updateEnvelopeForm);
         });
     });
-
+    
     submitUpdateButton.addEventListener('click', () => {
         updateEnvelope(currentEnvelopeId);
     });
+    
+    // Transaction view
+    Array.from(viewTransactionsButtons).forEach(button => {
+        button.addEventListener('click', (event) => {
+            const envelopeName = button.getAttribute('data-name');
+            envelopeDetails.setAttribute('data-name', envelopeName);
+
+            hideShow(allEnvelopes, envelopeDetails);
+
+            event.preventDefault();
+            viewTransactions(event)
+        });
+    })
 
     // delete envelope
     Array.from(deleteEnvelopeButtons).forEach(button => {

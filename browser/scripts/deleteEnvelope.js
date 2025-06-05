@@ -1,7 +1,8 @@
 export const deleteEnvelope = (event) => {
     const envelopeId = event.target.getAttribute('data-id');
+    const envelopeName = event.target.getAttribute('data-name');
     
-    if (confirm('Are you sure you want to delete this envelope?')) {
+    if (confirm(`Are you sure you want to delete the envelope "${envelopeName}"? This action cannot be undone.`)) {
         fetch(`/api/envelope/${envelopeId}`, {
             method: 'DELETE'
         })
