@@ -1,6 +1,8 @@
 export const viewTransactions = (event) => {
     const envelopeId = event.target.getAttribute('data-id');
 
+    console.log('Viewing transactions for envelope ID:', envelopeId);
+
     fetch(`/api/envelope/${envelopeId}/transactions`)
         .then(response => response.json())
         .then(transactions => {

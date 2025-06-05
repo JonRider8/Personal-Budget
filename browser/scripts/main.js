@@ -1,7 +1,10 @@
 import { populateEnvelopeList } from './populateEnvelopeList.js';
 import { submitEnvelope } from './submitNew.js';
 import { viewTransactions } from './transactions.js';
+import { updateEnvelope } from './submitUpdate.js';
+import { deleteEnvelope } from './deleteEnvelope.js';
 
+// Fetch envelope data from the server
 const fetchEnvelopeData = async () => {
     try {
         const response = await fetch('/api/envelope');
@@ -14,6 +17,7 @@ const fetchEnvelopeData = async () => {
     }
 }
 
+// Show and hide sections
 const hideShow = (section1, section2) => {
     section1.style.display = 'none';
     section2.style.display = 'flex'; 
@@ -32,6 +36,7 @@ fetchEnvelopeData().then(envelopeData => {
     const envelopeDetails = document.getElementById('envelope-details');
     const updateEnvelopeForm = document.getElementById('update-envelope');
 
+    // Initialize current envelope ID for submit update
     let currentEnvelopeId = null;
     
     // Add envelope button
@@ -45,10 +50,11 @@ fetchEnvelopeData().then(envelopeData => {
         submitEnvelope(envelopeData);
     });
     
+    // Populate the envelope list
     populateEnvelopeList(envelopeData);
 
-    // These have to go after the envelopes are populated
 
+    // These have to go after the envelopes are populated
     const viewTransactionsButtons = document.getElementsByClassName('view-transactions-button');
     const updateEnvelopeButtons = document.getElementsByClassName('update-envelope-button');
     const deleteEnvelopeButtons = document.getElementsByClassName('delete-envelope-button');
@@ -70,61 +76,15 @@ fetchEnvelopeData().then(envelopeData => {
             hideShow(allEnvelopes, updateEnvelopeForm);
         });
     });
-    
 
     submitUpdateButton.addEventListener('click', () => {
-        const radioButtons = document.getElementsByName('update-type');
-        const updateAmount = document.getElementById('update-envelope-amount').value;
-        let updateType = '';
-
-        radioButtons.forEach(radio => {
-            if (radio.checked) {
-                updateType = radio.value;
-            }
-        });
-
-        let formattedAmount = '';
-        if (updateType === 'add') {
-            formattedAmount = `+${parseFloat(updateAmount)}`;
-        } else if (updateType === 'subtract') {
-            formattedAmount = `-${parseFloat(updateAmount)}`;
-        }
-
-        if (updateType && updateAmount && currentEnvelopeId) {
-            fetch(`/api/envelope/${currentEnvelopeId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ balance: formattedAmount })
-            })
-            .then(response => response.json())
-            .then(data => {
-                window.location.reload();
-            })
-            .catch(error => console.error('Error updating envelope:', error));
-        } else {
-            alert('Please select an update type and enter an amount.');
-        }
+        updateEnvelope(currentEnvelopeId);
     });
 
     // delete envelope
     Array.from(deleteEnvelopeButtons).forEach(button => {
         button.addEventListener('click', (event) => {
-            const envelopeId = event.target.getAttribute('data-id');
-            if (confirm('Are you sure you want to delete this envelope?')) {
-                fetch(`/api/envelope/${envelopeId}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    } else {
-                        throw new Error('Failed to delete envelope');
-                    }
-                })
-                .catch(error => console.error('Error deleting envelope:', error));
-            }
+            deleteEnvelope(event);
         });
     });
 
