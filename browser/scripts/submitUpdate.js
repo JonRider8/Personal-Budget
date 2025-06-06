@@ -1,7 +1,28 @@
 export const updateEnvelope = (currentEnvelopeId) => {
     const radioButtons = document.getElementsByName('update-type');
         const updateAmount = document.getElementById('update-envelope-amount').value;
+        const updateAmountStr = updateAmount.toString();
         let updateType = '';
+
+        for(let i = 0; i < updateAmountStr.length; i++) {
+            if (updateAmountStr[i] === '.') {
+                let decimalPart = updateAmountStr.split('.')[1];
+                if (decimalPart && decimalPart.length > 2) {
+                    alert(`Please enter an amount with no more than two decimal places. 
+                        Nearest values is ${Math.floor(updateAmount * 100) / 100} or ${Math.ceil(updateAmount * 100) / 100 }.`);
+                    return;
+                }
+            }
+            if (updateAmountStr[i] === '$') {
+                updateAmountStr = updateAmountStr.replace('$', '');
+            }
+            if (updateAmountStr[i] === ',') {
+                updateAmountStr = updateAmountStr.replace(',', '');
+            }
+            if (updateAmountStr[i] === ' ') {
+                updateAmountStr = updateAmountStr.replace(' ', '');
+            }
+        }
 
         radioButtons.forEach(radio => {
             if (radio.checked) {

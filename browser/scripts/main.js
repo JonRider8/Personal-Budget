@@ -23,12 +23,16 @@ const hideShow = (section1, section2) => {
     section2.style.display = 'flex'; 
     
     const h2 = section2.querySelector('h2');
+    const balance = section2.querySelector('#balance-amount');
     const envelopeName = section2.getAttribute('data-name') || '';
+    const envelopeBalance = section2.getAttribute('data-balance') || '';
     
     if(section2.id === 'envelope-details') {
         h2.textContent = `${envelopeName} Transaction History`;
+        balance.textContent = `$${(envelopeBalance)}`;
     } else if(section2.id === 'update-envelope') {
         h2.textContent = `Update ${envelopeName} Envelope`;
+        balance.textContent = `$${(envelopeBalance)}`;
     }
 }
 
@@ -49,7 +53,7 @@ fetchEnvelopeData().then(envelopeData => {
     let currentEnvelopeId = null;
     
     // Add envelope button
-    addEnvelopeButton.addEventListener('click', () => {
+    addEnvelopeButton.addEventListener('click', () =>{
         hideShow(allEnvelopes, newEnvelopeForm); 
     });
     
@@ -72,7 +76,10 @@ fetchEnvelopeData().then(envelopeData => {
     Array.from(updateEnvelopeButtons).forEach(button => {
         button.addEventListener('click', (event) => {
             const envelopeName = button.getAttribute('data-name');
+            const envelopeItem = button.closest('.envelope-item');
+            const envelopeBalance = envelopeItem ? envelopeItem.getAttribute('data-balance') : '';
             updateEnvelopeForm.setAttribute('data-name', envelopeName);
+            updateEnvelopeForm.setAttribute('data-balance', envelopeBalance);
 
             currentEnvelopeId = event.target.getAttribute('data-id');
             hideShow(allEnvelopes, updateEnvelopeForm);
@@ -87,7 +94,10 @@ fetchEnvelopeData().then(envelopeData => {
     Array.from(viewTransactionsButtons).forEach(button => {
         button.addEventListener('click', (event) => {
             const envelopeName = button.getAttribute('data-name');
+            const envelopeItem = button.closest('.envelope-item');
+            const envelopeBalance = envelopeItem ? envelopeItem.getAttribute('data-balance') : '';
             envelopeDetails.setAttribute('data-name', envelopeName);
+            envelopeDetails.setAttribute('data-balance', envelopeBalance);
 
             hideShow(allEnvelopes, envelopeDetails);
 

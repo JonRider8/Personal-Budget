@@ -33,7 +33,7 @@
 
                 <label for="envelope-amount">Amount:</label>
                 </br>
-                <input type="number" id="envelope-amount" required>
+                <input type="number" id="envelope-amount" step="0.01" required>
                 </br>
                 <button type="submit-envelope" id="submit-envelope">Create Envelope</button>
             </form>
@@ -44,6 +44,9 @@
             <h2>Envelope Details</h2>
             <div id="details-content"></div>
             <button class="back-to-envelopes">Back to Envelopes</button>
+            <div id="current-balance">
+                <h3>Current Balance: <span id="balance-amount"></span></h3>
+            </div>
             <div id="transaction-list"></div>    
         </section>
 
@@ -53,6 +56,9 @@
             <button class="back-to-envelopes">Back to Envelopes</button>
             <form id="update-envelope-form">
                 </br>
+                <div id="current-balance">
+                    <h3>Current Balance: <span id="balance-amount"></span></h3>
+                </div>
                 <fieldset>
                 <legend>Transaction Type</legend>
                     <div>
@@ -71,7 +77,7 @@
 
                 <label for="update-envelope-amount">Amount:</label>
                 </br>
-                <input type="number" id="update-envelope-amount" required>
+                <input type="number" id="update-envelope-amount" step="0.01" required>
                 </br>
                 <button type="submit-update" id="submit-update">Update Envelope</button>
             </form>
